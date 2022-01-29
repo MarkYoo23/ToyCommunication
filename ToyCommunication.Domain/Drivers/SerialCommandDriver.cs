@@ -1,102 +1,33 @@
 ﻿using System.IO.Ports;
 using System.Text;
 using ToyCommunication.Domain.Communicaions;
-using ToyCommunication.Domain.Exceptions.Networks;
 using ToyCommunication.Domain.Models.Serials;
 using ToyCommunication.Domain.Packets;
 
 namespace ToyCommunication.Domain.Drivers
 {
-    public abstract class SerialCommandDriver : ICommandDriver, ISerialCommunicator
+    public abstract class SerialCommandDriver : CommandDriver, ISerialCommunicator
     {
-        private readonly ICommandManager _commandManager;
-        private readonly IPacketParser _packetParsers;
         private SerialPort _serialPort;
 
         public SerialCommandDriver(
             ICommandManager commandManager,
-            IPacketParser packetParsers)
+            IPacketParser packetParsers) :
+            base(commandManager, packetParsers)
         {
-            _commandManager = commandManager;
-            _packetParsers = packetParsers;
             _serialPort = new SerialPort();
         }
 
-        #region ICommandCommunicator
-        public async Task SendAsync(IRequestPacket requestPacket)
+        #region CommandDriver
+        protected override Task SendAction(IRequestPacket requestPacket) 
         {
-            if (_commandManager.CanRegister(requestPacket))
-            {
-                // TODO : (dh) Add Exception
-                throw new Exception();
-            }
-
-            // TODO : (dh) Need Refactoring
             var message = requestPacket.ToMessage() + "\r\n";
-            var cts = new CancellationTokenSource();
-
-            try
-            {
-                var job = Task.Run(() => _serialPort.Write(message), cts.Token);
-                if (job != await Task.WhenAny(job, Task.Delay(3000)))
-                {
-                    cts.Cancel();
-                    job.Wait();
-                }
-            }
-            catch (InvalidOperationException e)
-            {
-                throw new PortNotOpenException(e.Message);
-            }
-            catch (TimeoutException e)
-            {
-                throw new SendTimeoutException(e.Message);
-            }
-            catch
-            {
-                throw;
-            }
-            finally
-            {
-                cts.Dispose();
-            }
-
-            _commandManager.Register(requestPacket);
+            _serialPort.Write(message);
+            return Task.CompletedTask;
         }
+        #endregion
 
-        public async Task<IResponsePacket> ReceiveAsync(
-            IRequestPacket requestPacket,
-            int waitMilies = 3000)
-        {
-            IResponsePacket? responsePacket = null;
-            var cts = new CancellationTokenSource();
-            var job = Task.Run(async () =>
-            {
-                while (true)
-                {
-                    if (_commandManager.TryUnregister(requestPacket, out responsePacket))
-                    {
-                        return;
-                    }
-
-                    await Task.Delay(10);
-                }
-            }, cts.Token);
-
-            if (job != await Task.WhenAny(job, Task.Delay(waitMilies)))
-            {
-                cts.Cancel();
-                job.Wait();
-            }
-
-            if (responsePacket == null) 
-            {
-                throw new NullReferenceException();
-            }
-
-            return responsePacket;
-        }
-
+        #region ISerialCommunicator
         public async Task ChangePortAsync(int comPortNum, SystemBaudRateTypes baudRateType)
         {
             if (_serialPort.IsOpen)
@@ -147,7 +78,7 @@ namespace ToyCommunication.Domain.Drivers
             return _serialPort.IsOpen;
         }
 
-        private void HandleDataReceived(object sender, SerialDataReceivedEventArgs e) 
+        private void HandleDataReceived(object sender, SerialDataReceivedEventArgs e)
         {
             var receivedData = new List<byte>();
 
@@ -161,6 +92,5 @@ namespace ToyCommunication.Domain.Drivers
             _commandManager.Register(packet);
         }
         #endregion
-
     }
 }
