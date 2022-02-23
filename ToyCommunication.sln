@@ -3,17 +3,22 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.32112.339
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToyCommunication.Master", "ToyCommunication.Master\ToyCommunication.Master.csproj", "{A3AD0E55-9630-4450-9C73-3B7B489AF48B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ToyCommunication.Master", "ToyCommunication.Master\ToyCommunication.Master.csproj", "{A3AD0E55-9630-4450-9C73-3B7B489AF48B}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{1C064808-D564-4E3D-9B6C-EA62738CF910}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToyCommunication.Domain", "ToyCommunication.Domain\ToyCommunication.Domain.csproj", "{38F86478-ABBA-4CF8-8557-4993C08AEAD2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ToyCommunication.Domain", "ToyCommunication.Domain\ToyCommunication.Domain.csproj", "{38F86478-ABBA-4CF8-8557-4993C08AEAD2}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "application", "application", "{D90C129C-C64B-4E99-A5D2-3A6659AF75E9}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{B59D6B75-2D98-4C5A-BC3C-022DD8CCF1B4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToyCommnuication.Domain.Test", "ToyCommnuication.Domain.Test\ToyCommnuication.Domain.Test.csproj", "{309A92C8-382E-4390-9C56-BE59015C9904}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ToyCommnuication.Domain.Test", "ToyCommnuication.Domain.Test\ToyCommnuication.Domain.Test.csproj", "{309A92C8-382E-4390-9C56-BE59015C9904}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToyCommunication.Infrastructure", "ToyCommunication.Infrastructure\ToyCommunication.Infrastructure.csproj", "{F420C3A7-FC75-4D1C-AF1A-7F99E331167A}"
+	ProjectSection(ProjectDependencies) = postProject
+		{38F86478-ABBA-4CF8-8557-4993C08AEAD2} = {38F86478-ABBA-4CF8-8557-4993C08AEAD2}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +38,10 @@ Global
 		{309A92C8-382E-4390-9C56-BE59015C9904}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{309A92C8-382E-4390-9C56-BE59015C9904}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{309A92C8-382E-4390-9C56-BE59015C9904}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F420C3A7-FC75-4D1C-AF1A-7F99E331167A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F420C3A7-FC75-4D1C-AF1A-7F99E331167A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F420C3A7-FC75-4D1C-AF1A-7F99E331167A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F420C3A7-FC75-4D1C-AF1A-7F99E331167A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -41,6 +50,7 @@ Global
 		{A3AD0E55-9630-4450-9C73-3B7B489AF48B} = {D90C129C-C64B-4E99-A5D2-3A6659AF75E9}
 		{38F86478-ABBA-4CF8-8557-4993C08AEAD2} = {1C064808-D564-4E3D-9B6C-EA62738CF910}
 		{309A92C8-382E-4390-9C56-BE59015C9904} = {B59D6B75-2D98-4C5A-BC3C-022DD8CCF1B4}
+		{F420C3A7-FC75-4D1C-AF1A-7F99E331167A} = {1C064808-D564-4E3D-9B6C-EA62738CF910}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {06D023AA-D0F5-4C6F-A060-2516EE6664FB}
